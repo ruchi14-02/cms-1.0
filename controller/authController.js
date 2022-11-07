@@ -4,6 +4,10 @@ const User = require("../model/userModel")
 const bcrypt = require('bcryptjs') //default importes
 const {createAccessToken}  = require("../util/token") //named importes / user define import
 const jwt = require('jsonwebtoken')
+const regTemplate = require(`../template/regTemplate`)
+const  sendMail  = require('../middleware/mail')
+
+
 const authController = {
     
     register :async(req,res)=>{
@@ -11,7 +15,7 @@ const authController = {
         try{
             const{name,email,mobile,password} = req.body
 
-            const encPassword = await bcrypt.hash(password, 10)//encryption of paassswwoord
+            const encPassword = await bcrypt.hash(password, 10)//encryption of passwword
 
 const newUser = await User.create({
     name,
@@ -19,6 +23,10 @@ const newUser = await User.create({
     mobile,
     password :encPassword
 })
+const template = regTemplate(name,email)
+const subject = `confirmation of register with cmsv1.0`
+await sendMail(email, subject,template)
+
           res.status(StatusCodes.OK).json({msg:"user registered successfully" , data:newUser})
         }catch(err){
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg :err.message})
@@ -84,7 +92,7 @@ const newUser = await User.create({
     resetPassword :async(req,res)=>{
         try{
             // res.json({user:req.user})
-           const id = req.user.id
+           const id = req.user._id
 
            const{oldPassword, newPassword} = req.body
         //    //read user data

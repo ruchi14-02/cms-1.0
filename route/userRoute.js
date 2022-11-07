@@ -1,12 +1,20 @@
 const route =require('express').Router()
 
 const userController = require('../controller/userController')
+const auth = require('../middleware/auth')
+const adminAuth = require('../middleware/adminAuth')
+const userAuth = require('../middleware/userAuth')
 
-route.get(`/allUsers` , userController.getAll)
-route.get(`/currentUser` , userController.getCurrentUser)
-route.patch(`/update/:id` , userController.updateUser)
-route.delete(`/delete/:id` , userController.deleteUser)
-route.patch(`/change-role/:id` , userController.changeRole)
+//this three restricted to admin authorization
+route.get(`/allUsers` ,auth,adminAuth ,userController.getAll)
+route.delete(`/delete/:_id` ,auth,adminAuth, userController.deleteUser)
+route.patch(`/change-role/:_id` ,auth,adminAuth, userController.changeRole)
+
+
+//this two for user auth
+route.get(`/currentUser` ,auth, userController.getCurrentUser)
+route.patch(`/update` ,auth,userAuth,  userController.updateUser)
+
 
 
 module.exports = route

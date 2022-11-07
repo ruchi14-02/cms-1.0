@@ -7,7 +7,7 @@ const auth = async(req,res,next) =>{
           jwt.verify(token, process.env.TOKEN_SECRET,(err,user) =>{
             if(err)
             return res.status(StatusCodes.BAD_REQUEST).json({msg:" token INVALID"})
-            //  res.json({ id : user.id})
+            // res.json({ id : user})
             req.user = user;
             next()     //forwording response to next token
           })
