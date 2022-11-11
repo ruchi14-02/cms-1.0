@@ -7,7 +7,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const assert = require('assert')
 const fileUpload = require('express-fileupload')
-const {StatusCodes} =require('http-status-codes')
+const { StatusCodes } = require('http-status-codes')
 const connectDB = require('./db/index')
 const path = require('path')
 //port
@@ -16,7 +16,7 @@ const PORT = process.env.PORT
 const app = express()
 //body parser
 
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 
@@ -24,9 +24,9 @@ app.use(express.json())
 app.use(cors())
 app.use(cookieParser(process.env.TOKEN_SECRET)) //pass token only for signed  cookie
 app.use(fileUpload({
-    useTempFiles : true
+    useTempFiles: true
 }))
- 
+
 //route
 const authRoute = require('./route/authRoute')
 const userRoute = require('./route/userRoute')
@@ -48,21 +48,21 @@ app.use(`/api/v1/mail`, mailRoute)
 
 
 
-if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging'){
-  app.use(express.static(`client/build`))
-  app.get(`*`, (req,res)=>{
-res.sendFile(path.join(_dirname +`/client/build/index.html` ))
-  })
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+    app.use(express.static(`client/build`))
+    app.get(`*`, (req, res) => {
+        res.sendFile(path.join(__dirname + `/client/build/index.html`))
+    })
 }
 
-const start = async(req,res) => {
-    try{
+const start = async (req, res) => {
+    try {
         await connectDB()
-app.listen(PORT,()=>{
-    console.log(`server is listening @http://localhost@${PORT}`)
-})
-    }catch{
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg :err.message})
+        app.listen(PORT, () => {
+            console.log(`server is listening @http://localhost@${PORT}`)
+        })
+    } catch {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: err.message })
     }
 }
 

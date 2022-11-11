@@ -2,7 +2,7 @@
   "name": "restapi",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start-server": "nodemon server.js",
     "start-client": "cd client && npm start",
@@ -30,6 +30,6 @@
     "react": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "react-toastify": "^9.1.1"
-  }
-
+  },
+  "proxy": "http://localhost:7000"
 }
