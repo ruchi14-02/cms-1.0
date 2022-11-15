@@ -8,7 +8,7 @@ const userAuth = require('../middleware/userAuth')
 //this three restricted to admin authorization
 route.get(`/allUsers` ,auth,adminAuth ,userController.getAll)
 route.delete(`/delete/:_id` ,auth,adminAuth, userController.deleteUser)
-route.patch(`/change-role/:_id` ,auth,adminAuth, userController.changeRole)
+route.patch(`/changeRole/:_id` ,auth,adminAuth, userController.changeRole)
 
 
 //this two for user auth

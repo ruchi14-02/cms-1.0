@@ -3,6 +3,6 @@ const route = require('express').Router()
 const auth = require('../middleware/auth')
 
 route.post(`/profileImage/upload`,auth, imageController.uploadProfileImage)
-route.delete(`/profileImage/delete/:id`,auth, imageController.deleteProfileImage)
+route.delete(`/profileImage/delete`,auth, imageController.deleteProfileImage)
 
 module.exports = route 
